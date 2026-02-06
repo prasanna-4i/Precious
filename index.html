@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&family=Dancing+Script:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --pink-bg: #f5557e;
+            --red-bg: #c31f13;
+            --white: #ffffff;
+            --soft-pink: #fff0f3;
+            --timeline-bg: #fffcfd;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--pink-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            transition: background-color 0.8s ease;
+        }
+
+        /* --- STATE 1: PROPOSAL --- */
+        #proposal-view {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 20px;
+            width: 100%;
+            max-width: 450px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        #proposal-view h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 0.95;
+            margin-bottom: 50px;
+            color: var(--white);
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .option-item:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .checkbox {
+            width: 42px;
+            height: 42px;
+            border: 4px solid var(--white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+            background: transparent;
+        }
+
+        .option-text {
+            color: var(--white);
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* --- NEW STATE: MENU VIEW --- */
+        #menu-view {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100vh;
+            padding: 20px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        #menu-view h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 50px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .menu-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-15px);
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-card svg {
+            width: 60px;
+            height: 60px;
+            fill: white;
+        }
+
+        .menu-card span {
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* --- TIMELINE VIEW --- */
+        #timeline-view {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--pink-bg);
+            padding: 40px 20px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #timeline-view h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            color: white;
+            margin-top: 60px;
+            /* Brought the title down */
+            margin-bottom: 40px;
+            text-align: center;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-wrapper {
+            width: 100%;
+            max-width: 1250px;
+            position: relative;
+            padding: 10px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: fit-content;
+            transform: scale(0.85);
+            /* Effectively zooms out the content */
+            transform-origin: center top;
+        }
+
+        /* The Serpentine Path */
+        .timeline-main-path {
+            position: absolute;
+            left: 10%;
+            right: 10%;
+            top: 155px;
+            /* Row 1 path */
+            height: 2px;
+            border-top: 3px dashed rgba(255, 255, 255, 0.5);
+            z-index: 1;
+        }
+
+        .timeline-main-path.row-2 {
+            top: 425px;
+            /* Row 2 path */
+        }
+
+        .path-curve {
+            position: absolute;
+            right: 8%;
+            top: 155px;
+            width: 60px;
+            height: 272px;
+            border-right: 3px dashed rgba(255, 255, 255, 0.5);
+            border-bottom: 3px dashed rgba(255, 255, 255, 0.5);
+            border-radius: 0 60px 60px 0;
+            z-index: 1;
+        }
+
+        .timeline-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 80px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .timeline-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            width: 100%;
+        }
+
+        .milestone-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .milestone-item:hover {
+            transform: scale(1.05);
+        }
+
+        .milestone-info-top {
+            margin-bottom: 10px;
+        }
+
+        .milestone-date {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .milestone-title {
+            color: white;
+            font-size: 1rem;
+            font-weight: 800;
+            margin-top: 2px;
+        }
+
+        .milestone-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 6px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .milestone-circle svg {
+            width: 45px;
+            height: 45px;
+            fill: var(--pink-bg);
+        }
+
+        /* Decorative hearts ON THE PATH */
+        .path-marker-heart {
+            position: absolute;
+            top: 143px;
+            /* Alignment with row 1 path */
+            width: 28px;
+            height: 28px;
+            fill: white;
+            transform: translateX(-50%);
+            z-index: 2;
+            background: var(--pink-bg);
+            padding: 2px 6px;
+        }
+
+        .path-marker-heart.row-2 {
+            top: 413px;
+        }
+
+        .milestone-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 12px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 180px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .milestone-desc {
+            font-size: 0.8rem;
+            color: white;
+            line-height: 1.3;
+            font-weight: 400;
+        }
+
+        @media (max-width: 1100px) {
+            .timeline-row {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+            }
+
+            .timeline-main-path,
+            .path-curve {
+                display: none;
+            }
+        }
+
+        #future-view {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 700;
+            z-index: 200;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        /* --- STATE 2: SUCCESS LETTER --- */
+        #letter-view {
+            display: none;
+            width: 100%;
+            height: 100%;
+            background-color: #fffafb;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        /* Subtle heart background */
+        .bg-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 70L45 65C35 55 30 50 30 40C30 32 36 26 44 26C49 26 53 28 56 32C59 28 63 26 68 26C76 26 82 32 82 40C82 50 77 55 67 65L62 70L50 82L38 70' fill='%23f15278' fill-opacity='0.08'/%3E%3C/svg%3E");
+            background-size: 80px 80px;
+            z-index: 1;
+        }
+
+        .card-wrapper {
+            position: relative;
+            z-index: 5;
+            width: 85%;
+            max-width: 750px;
+            animation: popInSuccess 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .main-card {
+            background-color: var(--red-bg);
+            padding: 60px 50px;
+            color: white;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Scaled down elegant scallops for Top and Left */
+        .scallop-top {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: 0;
+            height: 20px;
+            background-image: radial-gradient(circle, var(--red-bg) 70%, transparent 72%);
+            background-size: 20px 20px;
+            z-index: 1;
+        }
+
+        .scallop-left {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            bottom: 0;
+            width: 20px;
+            background-image: radial-gradient(circle, var(--red-bg) 70%, transparent 72%);
+            background-size: 20px 20px;
+            z-index: 1;
+        }
+
+        /* Refined smaller triangle borders for Right and Bottom */
+        .border-right {
+            position: absolute;
+            top: 0;
+            right: 2px;
+            bottom: 0;
+            width: 12px;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 L6 6 L0 12' fill='none' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E");
+            background-repeat: repeat-y;
+            background-position: center;
+            opacity: 0.9;
+        }
+
+        .border-bottom {
+            position: absolute;
+            bottom: 2px;
+            left: 0;
+            right: 0;
+            height: 12px;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 L6 6 L12 0' fill='none' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+            background-position: center;
+            opacity: 0.9;
+        }
+
+        .to-from-section {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            line-height: 1.4;
+        }
+
+        .to-from-section span {
+            display: inline-block;
+            width: 70px;
+        }
+
+        .line-decoration {
+            display: inline-block;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.8);
+            width: 60%;
+            max-width: 400px;
+            margin-left: 10px;
+            height: 1.2rem;
+            vertical-align: bottom;
+        }
+
+        .main-text {
+            font-size: 1.4rem;
+            line-height: 1.6;
+            font-weight: 400;
+            max-width: 80%;
+            letter-spacing: 0.3px;
+        }
+
+        /* Balanced Heart Decorations */
+        .hearts-container {
+            position: absolute;
+            right: 40px;
+            top: 55%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            z-index: 5;
+        }
+
+        .white-heart-main {
+            fill: white;
+            width: 100px;
+            height: 100px;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
+            transform: rotate(-5deg);
+        }
+
+        .white-heart-sub {
+            fill: white;
+            width: 50px;
+            height: 50px;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.1));
+            transform: rotate(15deg);
+        }
+
+        /* Premium Side Hearts */
+        .page-side-hearts {
+            position: absolute;
+            right: -100px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .page-heart-red {
+            fill: var(--red-bg);
+            width: 100px;
+            height: 100px;
+            opacity: 0.9;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes popInSuccess {
+            0% {
+                transform: scale(0.95);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 1100px) {
+            .page-side-hearts {
+                display: none;
+            }
+        }
+
+        .changing-text {
+            display: inline-block;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .static-text {
+            display: inline-block;
+        }
+
+        @media (max-width: 600px) {
+            #proposal-view h1 {
+                font-size: 2.5rem;
+            }
+
+            .to-from-section {
+                font-size: 1.8rem;
+            }
+
+            .line-decoration {
+                width: 60%;
+            }
+
+            .main-text {
+                font-size: 1.3rem;
+                max-width: 100%;
+            }
+
+            .white-heart-main {
+                width: 80px;
+                height: 80px;
+            }
+
+            .white-heart-sub {
+                width: 40px;
+                height: 40px;
+            }
+
+            .main-card {
+                padding: 50px 30px;
+            }
+        }
+
+        /* --- WATERMARK STYLES --- */
+    </style>
+</head>
+
+<body>
+
+    <div id="proposal-view">
+        <h1 id="proposal-heading">
+            <span class="static-text">WILL YOU</span><br>
+            <span class="static-text">BE</span> <span id="change-1" class="changing-text">MY</span><br>
+            <span id="change-2" class="changing-text">VALENTINE</span><span class="static-text">?</span>
+        </h1>
+
+        <div class="options">
+            <div class="option-item" onclick="selectYes(this)">
+                <div class="checkbox"></div>
+                <div class="option-text">YES</div>
+            </div>
+            <div class="option-item" onclick="selectYes(this)">
+                <div class="checkbox"></div>
+                <div class="option-text">YES</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MIDDLE PAGE: MENU -->
+    <div id="menu-view">
+        <button class="back-btn" onclick="showSection('proposal-view')">← BACK</button>
+        <h2>Gifts for my Babeee !!</h2>
+        <div class="menu-grid">
+            <div class="menu-card" onclick="showSection('letter-view', true)">
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                </svg>
+                <span>A Letter<br>For You</span>
+            </div>
+            <div class="menu-card" onclick="showSection('timeline-view')">
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+                </svg>
+                <span>Our<br>Timeline</span>
+            </div>
+            <div class="menu-card" onclick="showSection('future-view')">
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M19,9L17.75,11.75L15,13L17.75,14.25L19,17L20.25,14.25L23,13L20.25,11.75L19,9M11.5,9.5L9,4L6.5,9.5L1,12L6.5,14.5L9,20L11.5,14.5L17,12L11.5,9.5M19,19L17.75,21.75L15,23L17.75,24.25L19,27L20.25,24.25L23,23L20.25,21.75L19,19Z" />
+                </svg>
+                <span>Our<br>Future</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- OUR JOURNEY VIEW -->
+    <div id="timeline-view">
+        <button class="back-btn" onclick="showSection('menu-view')"
+            style="color:white; background:rgba(255,255,255,0.2)">← BACK</button>
+
+        <h2>Our Love Journey</h2>
+
+        <div class="timeline-wrapper">
+            <!-- Continuous Serpentine Path -->
+            <div class="timeline-main-path"></div>
+            <div class="path-curve"></div>
+            <div class="timeline-main-path row-2"></div>
+
+            <div class="timeline-grid">
+                <!-- ROW 1 (5 items) -->
+                <div class="timeline-row">
+                    <!-- 1 -->
+                    <div class="milestone-item">
+                        <div class="milestone-info-top">
+                            <div class="milestone-date">June 20, 2020</div>
+                            <div class="milestone-title">First Meeting</div>
+                        </div>
+                        <div class="milestone-circle">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM18 13H4V5h14v8z" />
+                            </svg>
+                        </div>
+                        <div class="milestone-card">
+                            <p class="milestone-desc">A spark ignited when we met for the first time.</p>
+                        </div>
+                        <svg class="path-marker-heart" style="left:50%" viewBox="0 0 24 24">
+                            <path
+                                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                        </svg>
+                    </div>
+                    <!-- 2 -->
+                    <div class="milestone-item">
+                        <div class="milestone-info-top">
+                            <div class="milestone-date">Sept 3, 2020</div>
+                            <div class="milestone-title">First "I Love You"</div>
+                        </div>
+                        <div class="milestone-circle">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                            </svg>
+                        </div>
+                        <div class="milestone-card">
+                            <p class="milestone-desc">The day we first shared those three special words.</p>
+                        </div>
+                        <svg class="path-marker-heart" style="left:50%" viewBox="0 0 24 24">
+                            <path
+                                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                        </svg>
+                    </div>
+                    <!-- 3 -->
+                    <div class="milestone-item">
+                        <div class="milestone-info-top">
+                            <div class="milestone-date">Dec 25, 2020</div>
+                            <div class="milestone-title">First Holiday</div>
+                        </div>
+                        <div class="milestone-circle">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.65-.5-.65C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.1 1.1-1 2.2-1 3v11c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V9c0-.8 0-1.9-1-3zm-11-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm6 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM18 18H6V9h12v9z" />
+                            </svg>
+                        </div>
+                        <div class="milestone-card">
+                            <p class="milestone-desc">Celebrating joy and our first holiday together.</p>
+                        </div>
+                        <svg class="path-marker-heart" style="left:50%" viewBox="0 0 24 24">
+                            <path
+                                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                        </svg>
+                    </div>
+                    <!-- 4 -->
+                    <div class="milestone-item">
+                        <div class="milestone-info-top">
+                            <div class="milestone-date">April 10, 2021</div>
+                            <div class="milestone-title">Happiest Day</div>
+                        </div>
+                        <div class="milestone-circle">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z" />
+                            </svg>
+                        </div>
+                        <div class="milestone-card">
+                            <p class="milestone-desc">Learning and growing stronger together.</p>
+                        </div>
+                        <svg class="path-marker-heart" style="left:50%" viewBox="0 0 24 24">
+                            <path
+                                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                        </svg>
+                    </div>
+                    <!-- 5 -->
+                    <div class="milestone-item">
+                        <div class="milestone-info-top">
+                            <div class="milestone-date">Aug 19, 2021</div>
+                            <div class="milestone-title">New Adventure</div>
+                        </div>
+                        <div class="milestone-circle">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z" />
+                            </svg>
+                        </div>
+                        <div class="milestone-card">
+                            <p class="milestone-desc">Starting a new chapter hand in hand.</p>
+                        </div>
+                        <svg class="path-marker-heart" style="left:50%" viewBox="0 0 24 24">
+                            <path
+                                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- ROW 2 (Next 5 items) -->
+                <div class="timeline-row">
+                    <!-- 6 -->
+                    <div class="milestone-item">
+                        <div class="milestone-info-top">
+                            <div class="milestone-date">Dec 1, 2021</div>
+                            <div class="milestone-title">Travel Time</div>
+                        </div>
+                        <div class="milestone-circle">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M21 16.5c0 .38-.21.71-.53.88l-7.97 4.19c-.32.17-.71.17-1.03 0l-7.97-4.19c-.32-.17-.53-.5-.53-.88V7.5c0-.38.21-.71.53-.88l7.97-4.19c.32-.17.71-.17 1.03 0l7.97 4.19c.32.17.53.5.53.88v9zM12 4.33l-7.1 3.73v8.88l7.1 3.73 7.1-3.73V8.06l-7.1-3.73z" />
+                            </svg>
+                        </div>
+                        <div class="milestone-card">
+                            <p class="milestone-desc">Exploring every corner of the world together.</p>
+                        </div>
+                        <svg class="path-marker-heart row-2" style="left:50%" viewBox="0 0 24 24">
+                            <path
+                                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                        </svg>
+                    </div>
+                    <!-- 7 -->
+                    <div class="milestone-item">
+                        <div class="milestone-info-top">
+                            <div class="milestone-date">Mar 12, 2022</div>
+                            <div class="milestone-title">Quiet Moments</div>
+                        </div>
+                        <div class="milestone-circle">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                            </svg>
+                        </div>
+                        <div class="milestone-card">
+                            <p class="milestone-desc">Cherishing the simple peace of being us.</p>
+                        </div>
+                        <svg class="path-marker-heart row-2" style="left:50%" viewBox="0 0 24 24">
+                            <path
+                                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                        </svg>
+                    </div>
+                    <!-- 8 -->
+                    <div class="milestone-item">
+                        <div class="milestone-info-top">
+                            <div class="milestone-date">May 15, 2022</div>
+                            <div class="milestone-title">Little Joys</div>
+                        </div>
+                        <div class="milestone-circle">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                            </svg>
+                        </div>
+                        <div class="milestone-card">
+                            <p class="milestone-desc">The small things that make us smile every day.</p>
+                        </div>
+                        <svg class="path-marker-heart row-2" style="left:50%" viewBox="0 0 24 24">
+                            <path
+                                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                        </svg>
+                    </div>
+                    <!-- 9 -->
+                    <div class="milestone-item">
+                        <div class="milestone-info-top">
+                            <div class="milestone-date">Oct 28, 2022</div>
+                            <div class="milestone-title">Our Home</div>
+                        </div>
+                        <div class="milestone-circle">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z" />
+                            </svg>
+                        </div>
+                        <div class="milestone-card">
+                            <p class="milestone-desc">Building our sanctuary, one brick at a time.</p>
+                        </div>
+                        <svg class="path-marker-heart row-2" style="left:50%" viewBox="0 0 24 24">
+                            <path
+                                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                        </svg>
+                    </div>
+                    <!-- 10 -->
+                    <div class="milestone-item">
+                        <div class="milestone-info-top">
+                            <div class="milestone-date">Feb 14, 2023</div>
+                            <div class="milestone-title">Forever Us</div>
+                        </div>
+                        <div class="milestone-circle">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                            </svg>
+                        </div>
+                        <div class="milestone-card">
+                            <p class="milestone-desc">To infinity and beyond, together always.</p>
+                        </div>
+                        <svg class="path-marker-heart row-2" style="left:50%" viewBox="0 0 24 24">
+                            <path
+                                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FUTURE PLACEHOLDER -->
+    <div id="future-view">
+        <button class="back-btn" onclick="showSection('menu-view')">← BACK</button>
+        <div>
+            <h2>OUR FUTURE</h2>
+            <p style="font-size: 1.5rem; opacity: 0.8;">Counting down to forever with you.</p>
+        </div>
+    </div>
+
+    <div id="letter-view">
+        <button class="back-btn" onclick="showSection('menu-view', false)"
+            style="color: var(--red-bg); background: rgba(195, 31, 19, 0.1);">← BACK</button>
+        <div class="bg-pattern"></div>
+
+        <div class="card-wrapper">
+            <div class="main-card">
+                <div class="scallop-top"></div>
+                <div class="scallop-left"></div>
+                <div class="border-right"></div>
+                <div class="border-bottom"></div>
+
+                <div class="to-from-section">
+                    <span>To:</span>
+                    <div class="line-decoration"></div><br>
+                    <span>From:</span>
+                    <div class="line-decoration"></div>
+                </div>
+
+                <p class="main-text">
+                    You are the most important person in my life and I don't know what I would do without you. I love
+                    you more than words can express and I am so grateful to have you by my side.
+                </p>
+
+                <!-- Hearts inside the card -->
+                <div class="hearts-container">
+                    <svg class="white-heart-main" viewBox="0 0 32 32">
+                        <path
+                            d="M16 28.5L14.1 26.8C7.1 20.6 2.5 16.4 2.5 11.3C2.5 7.1 5.8 3.8 10 3.8C12.3 3.8 14.6 4.9 16 6.7C17.4 4.9 19.7 3.8 22 3.8C26.2 3.8 29.5 7.1 29.5 11.3C29.5 16.4 24.9 20.6 17.9 26.8L16 28.5Z" />
+                    </svg>
+                    <svg class="white-heart-sub" viewBox="0 0 32 32">
+                        <path
+                            d="M16 28.5L14.1 26.8C7.1 20.6 2.5 16.4 2.5 11.3C2.5 7.1 5.8 3.8 10 3.8C12.3 3.8 14.6 4.9 16 6.7C17.4 4.9 19.7 3.8 22 3.8C26.2 3.8 29.5 7.1 29.5 11.3C29.5 16.4 24.9 20.6 17.9 26.8L16 28.5Z" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Hearts outside the card -->
+            <div class="page-side-hearts">
+                <svg class="page-heart-red" viewBox="0 0 32 32">
+                    <path
+                        d="M16 28.5L14.1 26.8C7.1 20.6 2.5 16.4 2.5 11.3C2.5 7.1 5.8 3.8 10 3.8C12.3 3.8 14.6 4.9 16 6.7C17.4 4.9 19.7 3.8 22 3.8C26.2 3.8 29.5 7.1 29.5 11.3C29.5 16.4 24.9 20.6 17.9 26.8L16 28.5Z" />
+                </svg>
+                <svg class="page-heart-red" viewBox="0 0 32 32">
+                    <path
+                        d="M16 28.5L14.1 26.8C7.1 20.6 2.5 16.4 2.5 11.3C2.5 7.1 5.8 3.8 10 3.8C12.3 3.8 14.6 4.9 16 6.7C17.4 4.9 19.7 3.8 22 3.8C26.2 3.8 29.5 7.1 29.5 11.3C29.5 16.4 24.9 20.6 17.9 26.8L16 28.5Z" />
+                </svg>
+                <svg class="page-heart-red" viewBox="0 0 32 32">
+                    <path
+                        d="M16 28.5L14.1 26.8C7.1 20.6 2.5 16.4 2.5 11.3C2.5 7.1 5.8 3.8 10 3.8C12.3 3.8 14.6 4.9 16 6.7C17.4 4.9 19.7 3.8 22 3.8C26.2 3.8 29.5 7.1 29.5 11.3C29.5 16.4 24.9 20.6 17.9 26.8L16 28.5Z" />
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const views = ['proposal-view', 'menu-view', 'letter-view', 'timeline-view', 'future-view'];
+
+        function showSection(sectionId, isLetter = false) {
+            views.forEach(id => {
+                const el = document.getElementById(id);
+                el.style.display = 'none';
+                el.style.opacity = '0';
+            });
+
+            const target = document.getElementById(sectionId);
+            target.style.display = 'flex';
+
+            // Animation trigger
+            setTimeout(() => {
+                target.style.opacity = '1';
+                if (isLetter) {
+                    document.body.style.backgroundColor = '#fffafb';
+                } else if (sectionId === 'timeline-view') {
+                    document.body.style.backgroundColor = 'var(--timeline-bg)';
+                } else {
+                    document.body.style.backgroundColor = 'var(--pink-bg)';
+                }
+            }, 50);
+
+            if (sectionId === 'menu-view' || isLetter || sectionId === 'timeline-view') {
+                createHearts();
+            }
+        }
+
+        let proposalState = 0;
+        function selectYes(el) {
+            const check = el.querySelector('.checkbox');
+            if (check.innerHTML !== '') return; // Prevent double click until reset
+
+            check.innerHTML = '<svg viewBox="0 0 24 24" fill="white" width="30" height="30"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
+            check.style.background = 'rgba(255,255,255,0.2)';
+
+            if (proposalState === 0) {
+                proposalState = 1;
+                const word1 = document.getElementById('change-1');
+                const word2 = document.getElementById('change-2');
+
+                // Animate out
+                word1.style.opacity = '0';
+                word1.style.transform = 'translateY(10px)';
+                word2.style.opacity = '0';
+                word2.style.transform = 'translateY(10px)';
+
+                setTimeout(() => {
+                    word1.innerHTML = 'MINE';
+                    word2.innerHTML = 'KARTHIKA';
+
+                    // Animate in
+                    word1.style.opacity = '1';
+                    word1.style.transform = 'translateY(0)';
+                    word2.style.opacity = '1';
+                    word2.style.transform = 'translateY(0)';
+
+                    // Clear checks for next click
+                    setTimeout(() => {
+                        document.querySelectorAll('.checkbox').forEach(cb => {
+                            cb.innerHTML = '';
+                            cb.style.background = 'rgba(255,255,255,0.1)';
+                        });
+                    }, 300);
+                }, 400);
+            } else {
+                setTimeout(() => {
+                    showSection('menu-view');
+                }, 500);
+            }
+        }
+
+        function createHearts() {
+            // Check if containers exist or use the generic pattern
+            const colors = ['#f5557e', '#ffb3c1', '#fb6f92', '#c31f13'];
+            const container = document.getElementById('hearts-bg') || document.querySelector('.bg-pattern');
+
+            if (!container) return;
+            container.innerHTML = ''; // Clear old hearts
+
+            for (let i = 0; i < 40; i++) {
+                const heart = document.createElement('div');
+                heart.style.position = 'absolute';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.top = Math.random() * 100 + '%';
+                heart.style.transform = `rotate(${Math.random() * 30 - 15}deg) scale(${Math.random() * 0.4 + 0.3})`;
+                heart.style.opacity = Math.random() * 0.3 + 0.2;
+
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                heart.innerHTML = `<svg width="50" height="50" viewBox="0 0 32 32" fill="${color}">
+                    <path d="M16 28.5L14.1 26.8C7.1 20.6 2.5 16.4 2.5 11.3C2.5 7.1 5.8 3.8 10 3.8C12.3 3.8 14.6 4.9 16 6.7C17.4 4.9 19.7 3.8 22 3.8C26.2 3.8 29.5 7.1 29.5 11.3C29.5 16.4 24.9 20.6 17.9 26.8L16 28.5Z"/>
+                </svg>`;
+
+                container.appendChild(heart);
+            }
+        }
+    </script>
+</body>
+
+</html>
