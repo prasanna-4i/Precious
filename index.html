@@ -591,7 +591,7 @@
             width: 450px;
             min-height: 400px;
             /* Prevent collapse */
-            z-index: 5;
+            z-index: 20;
             pointer-events: none;
             display: flex;
             align-items: flex-end;
@@ -608,12 +608,12 @@
         /* Pivot centered on the lantern room of the tall pink lighthouse */
         .lantern-pivot {
             position: absolute;
-            top: 4.8%;
-            /* Perfectly aligned with the upper lanterns */
+            top: 2.2%;
+            /* Moved to the very top peak */
             left: 50.8%;
             width: 2px;
             height: 2px;
-            z-index: 10;
+            z-index: 25;
         }
 
         .light-beam-volumetric {
@@ -628,7 +628,8 @@
                     transparent 80%);
             clip-path: polygon(0% 48%, 100% 0%, 100% 100%, 0% 52%);
             transform-origin: left center;
-            z-index: 10;
+            z-index: 30;
+            /* Ensure beam is in front of everything */
             filter: blur(15px);
             opacity: 0.9;
             pointer-events: none;
@@ -647,7 +648,8 @@
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            padding-right: 80px;
+            padding-right: 30px;
+            /* Moved further right */
             width: 100%;
             z-index: 10;
         }
