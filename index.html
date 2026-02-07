@@ -608,8 +608,8 @@
         /* Pivot centered on the lantern room of the tall pink lighthouse */
         .lantern-pivot {
             position: absolute;
-            top: 7.5%;
-            /* Perfectly centered on the uppermost lantern room */
+            top: 4.8%;
+            /* Perfectly aligned with the upper lanterns */
             left: 50.8%;
             width: 2px;
             height: 2px;
@@ -655,13 +655,13 @@
         .future-large-card {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(20px);
-            padding: 80px 45px;
-            border-radius: 100px;
-            /* Stadium/Rectangular round shape */
+            padding: 50px 60px;
+            border-radius: 40px;
+            /* Horizontal rounded rectangle */
             border: 1px solid rgba(255, 255, 255, 0.3);
-            max-width: 400px;
+            max-width: 800px;
             width: 100%;
-            min-height: 550px;
+            min-height: 400px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -1160,12 +1160,12 @@
             const lanternPivot = beam.parentElement;
             const pivotRect = lanternPivot.getBoundingClientRect();
 
-            // Core calculation for high precision tracking
+            // Core calculation: center point of the pivot
             const beamX = pivotRect.left + (pivotRect.width / 2);
             const beamY = pivotRect.top + (pivotRect.height / 2);
 
-            // Get angle in radians with a small offset for perfect cursor tip alignment
-            const angle = Math.atan2(e.clientY - beamY - 5, e.clientX - beamX);
+            // Get angle in radians - removed offset for direct cursor tracking
+            const angle = Math.atan2(e.clientY - beamY, e.clientX - beamX);
             // Convert to degrees
             const degree = angle * (180 / Math.PI);
 
