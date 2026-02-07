@@ -608,12 +608,12 @@
         /* Pivot centered on the lantern room of the tall pink lighthouse */
         .lantern-pivot {
             position: absolute;
-            top: 2.2%;
-            /* Moved to the very top peak */
+            top: 0.5%;
+            /* Absolute summit tip */
             left: 50.8%;
             width: 2px;
             height: 2px;
-            z-index: 25;
+            z-index: 50;
         }
 
         .light-beam-volumetric {
@@ -648,29 +648,41 @@
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            padding-right: 30px;
-            /* Moved further right */
+            padding-right: 10px;
+            /* Absolute right edge */
             width: 100%;
             z-index: 10;
         }
 
         .future-large-card {
             background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-            padding: 50px 60px;
+            backdrop-filter: blur(25px);
+            padding: 50px;
             border-radius: 40px;
-            /* Horizontal rounded rectangle */
             border: 1px solid rgba(255, 255, 255, 0.3);
-            max-width: 800px;
+            max-width: 750px;
             width: 100%;
-            min-height: 400px;
+            max-height: 70vh;
+            /* Fixed height for scrolling */
+            overflow-y: auto;
+            /* Make it scrollable */
             display: flex;
             flex-direction: column;
-            justify-content: center;
             text-align: left;
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.2);
             color: #fff;
             animation: float 6s ease-in-out infinite;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+        }
+
+        .future-large-card::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .future-large-card::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
         }
 
         .future-large-card h3 {
@@ -1154,24 +1166,21 @@
             }
         }
 
-        // Precise Image-Based Lighthouse Mouse Tracking
+        // High-Precision Mouse Tracking with Scroll Correction
         document.addEventListener('mousemove', (e) => {
             const beam = document.getElementById('lighthouse-beam-v3');
             if (!beam) return;
 
-            const lanternPivot = beam.parentElement;
-            const pivotRect = lanternPivot.getBoundingClientRect();
+            const pivotRect = beam.parentElement.getBoundingClientRect();
 
-            // Core calculation: center point of the pivot
-            const beamX = pivotRect.left + (pivotRect.width / 2);
-            const beamY = pivotRect.top + (pivotRect.height / 2);
+            // Calculate center point of pivot in screen space
+            const centerX = pivotRect.left + pivotRect.width / 2;
+            const centerY = pivotRect.top + pivotRect.height / 2;
 
-            // Get angle in radians - removed offset for direct cursor tracking
-            const angle = Math.atan2(e.clientY - beamY, e.clientX - beamX);
-            // Convert to degrees
+            // Use client coords (relative to viewport) for perfect alignment
+            const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX);
             const degree = angle * (180 / Math.PI);
 
-            // Applying rotation
             beam.style.transform = `rotate(${degree}deg)`;
         });
 
