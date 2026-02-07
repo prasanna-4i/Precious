@@ -585,7 +585,8 @@
         /* --- REFERENCE-MATCHING LIGHTHOUSE STYLES --- */
         .lighthouse-anchor {
             position: absolute;
-            bottom: 0;
+            bottom: -40px;
+            /* Brought down slightly */
             left: 0;
             width: 450px;
             min-height: 400px;
@@ -607,7 +608,8 @@
         /* Pivot centered on the lantern room of the tall pink lighthouse */
         .lantern-pivot {
             position: absolute;
-            top: 21.5%;
+            top: 10%;
+            /* Moved up to the actual lantern room */
             left: 50.8%;
             width: 2px;
             height: 2px;
@@ -634,9 +636,46 @@
             /* Default angle */
         }
 
-        #proposal-view {
+        #proposal-view,
+        #future-view {
             overflow: hidden;
             /* Prevent scrollbars from long beam */
+        }
+
+        .future-card-container {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding-right: 80px;
+            width: 100%;
+            z-index: 10;
+        }
+
+        .future-large-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            padding: 50px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            max-width: 500px;
+            width: 100%;
+            text-align: left;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            color: #fff;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .future-large-card h3 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 900;
+        }
+
+        .future-large-card p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            opacity: 0.95;
         }
 
         @media (max-width: 600px) {
@@ -683,13 +722,6 @@
 <body>
 
     <div id="proposal-view">
-        <div class="lighthouse-anchor">
-            <!-- Absolute URL to ensure it loads on GitHub Pages -->
-            <img src="https://prasanna-4i.github.io/Precious/lighthouse.png" class="lighthouse-img" alt="Lighthouse">
-            <div class="lantern-pivot">
-                <div id="lighthouse-beam-v3" class="light-beam-volumetric"></div>
-            </div>
-        </div>
         <h1 id="proposal-heading">
             <span class="static-text">WILL YOU</span><br>
             <span class="static-text">BE</span> <span id="change-1" class="changing-text">MY</span><br>
@@ -959,12 +991,30 @@
         </div>
     </div>
 
-    <!-- FUTURE PLACEHOLDER -->
+    <!-- FUTURE VIEW -->
     <div id="future-view">
         <button class="back-btn" onclick="showSection('menu-view')">← BACK</button>
-        <div>
-            <h2>OUR FUTURE</h2>
-            <p style="font-size: 1.5rem; opacity: 0.8;">Counting down to forever with you.</p>
+
+        <div class="lighthouse-anchor">
+            <!-- Absolute URL to ensure it loads on GitHub Pages -->
+            <img src="https://prasanna-4i.github.io/Precious/lighthouse.png" class="lighthouse-img" alt="Lighthouse">
+            <div class="lantern-pivot">
+                <div id="lighthouse-beam-v3" class="light-beam-volumetric"></div>
+            </div>
+        </div>
+
+        <div class="future-card-container">
+            <div class="future-large-card">
+                <h3>Our Beautiful Future</h3>
+                <p>
+                    Every lighthouse needs a shore, and you are mine. I see a future where we explore every horizon
+                    together,
+                    building a life filled with laughter, adventure, and endless love. No matter where the tide takes
+                    us,
+                    we'll always have each other's light to guide us home.
+                </p>
+                <div style="margin-top: 30px; font-size: 3rem;">♾️❤️</div>
+            </div>
         </div>
     </div>
 
@@ -1098,7 +1148,7 @@
         }
 
         // Image-Based Lighthouse Mouse Tracking
-        document.getElementById('proposal-view').addEventListener('mousemove', (e) => {
+        document.addEventListener('mousemove', (e) => {
             const beam = document.getElementById('lighthouse-beam-v3');
             if (!beam) return;
 
