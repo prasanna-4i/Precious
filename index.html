@@ -582,7 +582,68 @@
             display: inline-block;
         }
 
+        /* --- REFERENCE-MATCHING LIGHTHOUSE STYLES --- */
+        .lighthouse-anchor {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 450px;
+            min-height: 400px;
+            /* Prevent collapse */
+            z-index: 5;
+            pointer-events: none;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .lighthouse-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        /* Pivot centered on the lantern room of the tall pink lighthouse */
+        .lantern-pivot {
+            position: absolute;
+            top: 21.5%;
+            left: 50.8%;
+            width: 2px;
+            height: 2px;
+            z-index: 10;
+        }
+
+        .light-beam-volumetric {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1500px;
+            height: 350px;
+            background: radial-gradient(ellipse at left,
+                    rgba(255, 255, 255, 0.5) 0%,
+                    rgba(255, 255, 255, 0.05) 50%,
+                    transparent 80%);
+            clip-path: polygon(0% 48%, 100% 0%, 100% 100%, 0% 52%);
+            transform-origin: left center;
+            z-index: 10;
+            filter: blur(15px);
+            opacity: 0.9;
+            pointer-events: none;
+            transform: rotate(-20deg);
+            /* Default angle */
+        }
+
+        #proposal-view {
+            overflow: hidden;
+            /* Prevent scrollbars from long beam */
+        }
+
         @media (max-width: 600px) {
+            .lighthouse-anchor {
+                width: 250px;
+            }
+
             #proposal-view h1 {
                 font-size: 2.5rem;
             }
@@ -622,6 +683,13 @@
 <body>
 
     <div id="proposal-view">
+        <div class="lighthouse-anchor">
+            <!-- Absolute URL to ensure it loads on GitHub Pages -->
+            <img src="https://prasanna-4i.github.io/Precious/lighthouse.png" class="lighthouse-img" alt="Lighthouse">
+            <div class="lantern-pivot">
+                <div id="lighthouse-beam-v3" class="light-beam-volumetric"></div>
+            </div>
+        </div>
         <h1 id="proposal-heading">
             <span class="static-text">WILL YOU</span><br>
             <span class="static-text">BE</span> <span id="change-1" class="changing-text">MY</span><br>
@@ -772,8 +840,7 @@
                             <div class="milestone-title">New Adventure</div>
                         </div>
                         <div class="milestone-circle">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z" />
+                            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z" />
                             </svg>
                         </div>
                         <div class="milestone-card">
@@ -1029,6 +1096,27 @@
                 }, 500);
             }
         }
+
+        // Image-Based Lighthouse Mouse Tracking
+        document.getElementById('proposal-view').addEventListener('mousemove', (e) => {
+            const beam = document.getElementById('lighthouse-beam-v3');
+            if (!beam) return;
+
+            // Get the position of the lantern pivot
+            const lanternPivot = beam.parentElement; // The lantern-pivot div
+            const pivotRect = lanternPivot.getBoundingClientRect();
+
+            // Calculate the center of the pivot point relative to the viewport
+            const beamX = pivotRect.left + (pivotRect.width / 2);
+            const beamY = pivotRect.top + (pivotRect.height / 2);
+
+            const angle = Math.atan2(e.clientY - beamY, e.clientX - beamX);
+            const degree = angle * (180 / Math.PI);
+
+            beam.style.transform = `rotate(${degree}deg)`;
+        });
+
+        // Initial state logic...
 
         function createHearts() {
             // Check if containers exist or use the generic pattern
