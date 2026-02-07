@@ -608,8 +608,8 @@
         /* Pivot centered on the lantern room of the tall pink lighthouse */
         .lantern-pivot {
             position: absolute;
-            top: 10%;
-            /* Moved up to the actual lantern room */
+            top: 7.5%;
+            /* Perfectly centered on the uppermost lantern room */
             left: 50.8%;
             width: 2px;
             height: 2px;
@@ -654,14 +654,19 @@
 
         .future-large-card {
             background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(15px);
-            padding: 50px;
-            border-radius: 40px;
+            backdrop-filter: blur(20px);
+            padding: 80px 45px;
+            border-radius: 100px;
+            /* Stadium/Rectangular round shape */
             border: 1px solid rgba(255, 255, 255, 0.3);
-            max-width: 500px;
+            max-width: 400px;
             width: 100%;
+            min-height: 550px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             text-align: left;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.15);
             color: #fff;
             animation: float 6s ease-in-out infinite;
         }
@@ -1147,22 +1152,24 @@
             }
         }
 
-        // Image-Based Lighthouse Mouse Tracking
+        // Precise Image-Based Lighthouse Mouse Tracking
         document.addEventListener('mousemove', (e) => {
             const beam = document.getElementById('lighthouse-beam-v3');
             if (!beam) return;
 
-            // Get the position of the lantern pivot
-            const lanternPivot = beam.parentElement; // The lantern-pivot div
+            const lanternPivot = beam.parentElement;
             const pivotRect = lanternPivot.getBoundingClientRect();
 
-            // Calculate the center of the pivot point relative to the viewport
+            // Core calculation for high precision tracking
             const beamX = pivotRect.left + (pivotRect.width / 2);
             const beamY = pivotRect.top + (pivotRect.height / 2);
 
-            const angle = Math.atan2(e.clientY - beamY, e.clientX - beamX);
+            // Get angle in radians with a small offset for perfect cursor tip alignment
+            const angle = Math.atan2(e.clientY - beamY - 5, e.clientX - beamX);
+            // Convert to degrees
             const degree = angle * (180 / Math.PI);
 
+            // Applying rotation
             beam.style.transform = `rotate(${degree}deg)`;
         });
 
