@@ -608,8 +608,8 @@
         /* Pivot centered on the lantern room of the tall pink lighthouse */
         .lantern-pivot {
             position: absolute;
-            top: 0.5%;
-            /* Absolute summit tip */
+            top: 3.5%;
+            /* Corrected to target the top-most lantern room */
             left: 50.8%;
             width: 2px;
             height: 2px;
@@ -618,23 +618,22 @@
 
         .light-beam-volumetric {
             position: absolute;
-            top: 0;
+            top: -175px;
+            /* HALF OF HEIGHT (350px) to center it on the pivot point */
             left: 0;
-            width: 1500px;
+            width: 1560px;
             height: 350px;
             background: radial-gradient(ellipse at left,
-                    rgba(255, 255, 255, 0.5) 0%,
+                    rgba(255, 255, 255, 0.55) 0%,
                     rgba(255, 255, 255, 0.05) 50%,
                     transparent 80%);
             clip-path: polygon(0% 48%, 100% 0%, 100% 100%, 0% 52%);
             transform-origin: left center;
             z-index: 30;
-            /* Ensure beam is in front of everything */
             filter: blur(15px);
             opacity: 0.9;
             pointer-events: none;
             transform: rotate(-20deg);
-            /* Default angle */
         }
 
         #proposal-view,
@@ -648,7 +647,7 @@
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            padding-right: 10px;
+            padding-right: 5px;
             /* Absolute right edge */
             width: 100%;
             z-index: 10;
